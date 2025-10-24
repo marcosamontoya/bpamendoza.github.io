@@ -186,9 +186,10 @@
 <body>
     <div class="container">
         <h1>Autoevaluación de Buenas Prácticas Agrícolas</h1>
-        
+
         <form id="formulario">
-            <div class="form-group">
+            <!--
+           <div class="form-group">
                 <label for="propiedad">Nombre de la propiedad *</label>
                 <input type="text" id="propiedad" placeholder="Ingrese el nombre de la propiedad" required>
                 <div class="error" id="error-propiedad">Este campo es obligatorio</div>
@@ -205,9 +206,12 @@
                 </select>
                 <div class="error" id="error-oasis">Este campo es obligatorio</div>
             </div>
+            -->
             
+            <h3>Identificación de la propiedad</h3><br>
+
             <div class="form-group">
-                <label for="croquis">¿Tiene un croquis detallado de la propiedad? *</label>
+                <label for="croquis">¿Tiene un esquema detallado de la propiedad? *</label>
                 <select id="croquis" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -216,6 +220,8 @@
                 <div class="error" id="error-croquis">Este campo es obligatorio</div>
             </div>
             
+            <h3>Documentación obligatoria</h3><br>
+
             <div class="form-group">
                 <label for="rotulacion">¿Usted rotula la mercadería, utiliza Documento de Tránsito Vegetal (DTVe) o Certificado de Ingreso de Uva (CIU)? *</label>
                 <select id="rotulacion" required>
@@ -225,6 +231,8 @@
                 </select>
                 <div class="error" id="error-rotulacion">Este campo es obligatorio</div>
             </div>
+
+            <h3>Registros</h3><br>
 
             <div class="form-group">
                 <label for="registro">¿Lleva registro de las labores (aplicaciones, riegos, etc.) en un cuaderno de campo? *</label>
@@ -236,8 +244,10 @@
                 <div class="error" id="error-registro">Este campo es obligatorio</div>
             </div>
 
+            <h3>Fitosanitarios</h3><br>
+
             <div class="form-group">
-                <label for="productos">¿Se utilizan únicamente aquellos productos registrados por SENASA, autorizados para el cultivo y siguiendo las indicaciones de los marbetes? *</label>
+                <label for="productos">¿Utiliza únicamente aquellos productos registrados por SENASA, autorizados para el cultivo y siguiendo las indicaciones de los marbetes? *</label>
                 <select id="productos" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -257,7 +267,7 @@
             </div>
 
             <div class="form-group">
-                <label for="medicion">¿Se cuenta con elementos de medición adecuados, en buen estado, destinados para la preparación de los productos? *</label>
+                <label for="medicion">¿Cuenta con elementos de medición adecuados, en buen estado, destinados solamente para la preparación de los productos? *</label>
                 <select id="medicion" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -266,7 +276,7 @@
                 <div class="error" id="error-medicion">Este campo es obligatorio</div>
             </div>
             <div class="form-group">
-                <label for="proteccion">¿Se cuenta con el equipo de protección personal para la preparación de los productos? *</label>
+                <label for="proteccion">¿Cuenta con el equipo de protección personal para la preparación y aplicación de los productos? *</label>
                 <select id="proteccion" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -276,7 +286,7 @@
             </div>
 
             <div class="form-group">
-                <label for="prohibicion">¿Se respeta la prohibición de fumar, comer y beber durante la aplicación de fitosanitarios? *</label>
+                <label for="prohibicion">¿Respeta la prohibición de fumar, comer y beber durante la aplicación de fitosanitarios? *</label>
                 <select id="prohibicion" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -286,7 +296,7 @@
             </div>
 
             <div class="form-group">
-                <label for="lavado">¿El equipo se lava cuidadosamente después de cada aplicación, lejos de los cursos de agua y se eliminan adecuadamente los residuos de lavado? *</label>
+                <label for="lavado">¿El equipo se lava cuidadosamente después de cada aplicación, lejos de los cursos de agua o zonas que puedan contaminarse? *</label>
                 <select id="lavado" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -296,7 +306,7 @@
             </div>
 
             <div class="form-group">
-                <label for="calibracion">¿Se realizan mantenimientos que garantizan que los equipos de aplicación funcionan adecuadamente? ¿Se calibran al menos una vez al año? *</label>
+                <label for="calibracion">¿Realiza mantenimientos que garantizan que los equipos de aplicación funcionan adecuadamente? ¿Se calibran al menos una vez al año? *</label>
                 <select id="calibracion" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -316,7 +326,7 @@
             </div>
 
             <div class="form-group">
-                <label for="envases">¿Los envases vacíos de productos fitosanitarios se almacenan e inutilizan adecuadamente? *</label>
+                <label for="envases">¿Realiza el triple lavado y la inutilización de los envases y los entrega para su disposición final? *</label>
                 <select id="envases" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -325,8 +335,10 @@
                 <div class="error" id="error-envases">Este campo es obligatorio</div>
             </div>
 
+            <h3>Análisis de agua y suelo</h3><br>
+
             <div class="form-group">
-                <label for="agua">¿Se realizan análisis periódicos de laboratorio del agua de riego que verifican su aptitud? *</label>
+                <label for="agua">¿Realiza análisis anuales de laboratorio del agua de riego que verifican su aptitud? *</label>
                 <select id="agua" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -336,7 +348,7 @@
             </div>
 
             <div class="form-group">
-                <label for="suelo">¿Realiza análisis de suelo periódicos para calcular los requerimientos de fertilizantes? *</label>
+                <label for="suelo">¿Realiza análisis de suelo anuales para calcular los requerimientos de fertilizantes? *</label>
                 <select id="suelo" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -347,7 +359,7 @@
             
 
             <div class="form-group">
-                <label for="agua2">¿Se realizan análisis periódicos de laboratorio del agua de consumo que verifican su aptitud según el Código Alimentario Argentino? *</label>
+                <label for="agua2">¿Realiza anualmente análisis del agua de consumo que verifican su aptitud según el Código Alimentario Argentino? *</label>
                 <select id="agua2" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -355,6 +367,8 @@
                 </select>
                 <div class="error" id="error-agua2">Este campo es obligatorio</div>
             </div>
+
+            <h3>Capacitación</h3><br>
 
             <div class="form-group">
                 <label for="capacitacion">¿El personal está capacitado, especialmente en las técnicas de cosecha y prácticas de salud e higiene? *</label>
@@ -366,6 +380,8 @@
                 <div class="error" id="error-capacitacion">Este campo es obligatorio</div>
             </div>
 
+            <h3>Instalaciones</h3><br>
+
             <div class="form-group">
                 <label for="sanitarios">¿Hay instalaciones sanitarias y equipamientos para lavado de manos, fijos o portátiles? *</label>
                 <select id="sanitarios" required>
@@ -376,8 +392,10 @@
                 <div class="error" id="error-sanitarios">Este campo es obligatorio</div>
             </div>
 
+            <h3>Manipulación de alimentos</h3><br>
+
             <div class="form-group">
-                <label for="contaminacion">¿Se toman todas las medidas necesarias a fin de prevenir cualquier tipo de contaminación física, química o biológica donde se encuentra el producto recolectado? *</label>
+                <label for="contaminacion">¿Toman todas las medidas necesarias a fin de prevenir cualquier tipo de contaminación física, química o biológica donde se encuentra el producto recolectado? *</label>
                 <select id="contaminacion" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -396,8 +414,10 @@
                 <div class="error" id="error-envases">Este campo es obligatorio</div>
             </div>
 
+            <h3>Animales</h3><br>
+
             <div class="form-group">
-                <label for="animales">¿Se respeta la prohibición de que ingresen animales domésticos y/o de granja al área de cultivo, zonas de manipulación y almacenamiento de producto? *</label>
+                <label for="animales">¿Respeta la prohibición de que ingresen animales domésticos y/o de granja al área de cultivo, zonas de manipulación y almacenamiento de producto? *</label>
                 <select id="animales" required>
                     <option value="">Seleccione una opción</option>
                     <option value="si">Sí</option>
@@ -406,6 +426,8 @@
                 <div class="error" id="error-animales">Este campo es obligatorio</div>
             </div>
             
+            <h3>Asistencia técnica</h3><br>
+
             <div class="form-group">
                 <label for="asistencia">¿La propiedad cuenta con la asistencia de un ingeniero agrónomo? *</label>
                 <select id="asistencia" required>
@@ -426,7 +448,12 @@
             <h2>Índice de Buenas Prácticas</h2>
             <div class="porcentaje" id="porcentaje-valor">0%</div>
             <div class="estado-mensaje" id="estado-mensaje"></div>
-        </div>
+        </div><br>
+    
+        <div style="text-align: center;">
+            <h5>Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar</h5>
+            <br>
+          </div>    
     </div>
     
     <script>
@@ -496,5 +523,6 @@
             });
         });
     </script>
+    
 </body>
 </html>
