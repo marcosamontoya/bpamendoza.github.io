@@ -450,10 +450,7 @@
             <div class="estado-mensaje" id="estado-mensaje"></div>
         </div><br>
     
-        <div style="text-align: center;">
-            <h5>Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar</h5>
-            <br>
-          </div>    
+       
     </div>
     
     <script>
@@ -502,13 +499,13 @@
             let estado = '';
             if (porcentaje > 70) {
                 resultadoDiv.classList.add('verde');
-                estado = '✓ Excelente cumplimiento de buenas prácticas. Debería mejorar las áreas donde indicó que no.';
+                estado = '✓ Excelente cumplimiento de buenas prácticas. Debería mejorar las áreas donde indicó que no. Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar';
             } else if (porcentaje >= 40) {
                 resultadoDiv.classList.add('amarillo');
-                estado = '⚠ Cumplimiento moderado, hay aspectos a mejorar. Debería mejorar las áreas donde indicó que no.';
+                estado = '⚠ Cumplimiento moderado, hay aspectos a mejorar. Debería mejorar las áreas donde indicó que no. Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar';
             } else {
                 resultadoDiv.classList.add('rojo');
-                estado = '✗ Bajo cumplimiento, requiere mejoras. Debería mejorar las áreas donde indicó que no.';
+                estado = '✗ Bajo cumplimiento, requiere mejoras. Debería mejorar las áreas donde indicó que no. Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar';
             }
             
             document.getElementById('estado-mensaje').textContent = estado;
