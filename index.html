@@ -16,18 +16,39 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            flex: 1;
             max-width: 600px;
-            width: 100%;
+            background: white;
             padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .grafico-container {
+            flex: 1;
+            max-width: 600px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: sticky;
+            top: 20px;
         }
         
         h1 {
@@ -35,6 +56,13 @@
             margin-bottom: 30px;
             text-align: center;
             font-size: 28px;
+        }
+
+        h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
         }
         
         .form-group {
@@ -49,7 +77,6 @@
             font-size: 15px;
         }
         
-        input[type="text"],
         select {
             width: 100%;
             padding: 12px;
@@ -57,9 +84,10 @@
             border-radius: 6px;
             font-size: 15px;
             transition: border-color 0.3s;
+            background-color: white;
+            cursor: pointer;
         }
         
-        input[type="text"]:focus,
         select:focus {
             outline: none;
             border-color: #667eea;
@@ -170,356 +198,432 @@
             color: #666;
             margin-top: 10px;
         }
-        
-        .error {
-            color: #dc3545;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
+
+        #radarChart {
+            width: 100% !important;
+            max-width: 500px;
+            height: 500px !important;
         }
-        
-        .error.mostrar {
-            display: block;
+
+        .grafico-titulo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .layout {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .grafico-container {
+                position: relative;
+                top: 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Autoevaluación de Buenas Prácticas Agrícolas</h1>
+    <div class="layout">
+        <div class="container">
+            <h1>Autoevaluación de Buenas Prácticas Agrícolas</h1>
 
-        <form id="formulario">
-            <!--
-           <div class="form-group">
-                <label for="propiedad">Nombre de la propiedad *</label>
-                <input type="text" id="propiedad" placeholder="Ingrese el nombre de la propiedad" required>
-                <div class="error" id="error-propiedad">Este campo es obligatorio</div>
+            <form id="formulario">
+                <h3>Documentación obligatoria</h3>
+                <div class="form-group">
+                    <label for="RUT">¿Tiene RENSPA/RUT? *</label>
+                    <select id="RUT" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="rotulacion">¿Usted rotula la mercadería, utiliza Documento de Tránsito Vegetal (DTVe) o Certificado de Ingreso de Uva (CIU)? *</label>
+                    <select id="rotulacion" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="croquis">¿Tiene un esquema detallado de la propiedad? *</label>
+                    <select id="croquis" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <h3>Trazabilidad</h3>
+                <div class="form-group">
+                    <label for="registro">¿Lleva registro de las labores (aplicaciones, riegos, etc.) en un cuaderno de campo? *</label>
+                    <select id="registro" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <h3>Manejo del Agua</h3>
+                <div class="form-group">
+                    <label for="potable">¿Realiza análisis de laboratorio del agua potable? *</label>
+                    <select id="potable" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="riego">¿Realiza análisis de laboratorio del agua de riego? *</label>
+                    <select id="riego" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="agua">¿Planifica el uso del agua según demanda y eficiencia de riego? *</label>
+                    <select id="agua" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <h3>Manejo del Suelo</h3>
+                <div class="form-group">
+                    <label for="suelo">¿Realiza análisis de suelo? *</label>
+                    <select id="suelo" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="suelo2">¿Planifica el manejo del suelo? *</label>
+                    <select id="suelo2" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <h3>Fertilizantes</h3>
+                <div class="form-group">
+                    <label for="plan_fert">¿Tiene un plan de fertilización? *</label>
+                    <select id="plan_fert" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fert_inscr">¿Utiliza productos inscriptos en SENASA? *</label>
+                    <select id="fert_inscr" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="enmienda">¿En caso de utilizar guanos, los utiliza siempre compostados? *</label>
+                    <select id="enmienda" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <h3>Fitosanitarios</h3>
+                <div class="form-group">
+                    <label for="productos">¿Utiliza únicamente aquellos productos registrados por SENASA y autorizados para el cultivo? *</label>
+                    <select id="productos" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="preparacion">¿Utiliza las dosis indicadas en el marbete? *</label>
+                    <select id="preparacion" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="aplicacion">¿Calibra la pulverizadora y utiliza elementos de protección personal? *</label>
+                    <select id="aplicacion" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="deposito">¿Los productos se transportan separados de personas, animales y alimentos? ¿El depósito de agroquímicos es cerrado, tiene piso impermeable y los productos se encuentran separados del suelo? *</label>
+                    <select id="deposito" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+               
+                <h3>Animales</h3>
+                <div class="form-group">
+                    <label for="cuidados">¿Los animales de trabajo se encuentran bajo cuidado veterinario? *</label>
+                    <select id="cuidados" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="animales">¿Respeta la prohibición de que ingresen animales domésticos y/o de granja al área de cultivo, zonas de manipulación y almacenamiento de producto? *</label>
+                    <select id="animales" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <h3>Manipulación de alimentos</h3>
+                <div class="form-group">
+                    <label for="limpio">¿Existen áreas identificadas dónde se encuentran los envases limpios? *</label>
+                    <select id="limpio" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="sanitarios">¿Hay instalaciones sanitarias y equipamientos para lavado de manos con agua potable, fijos o portátiles? *</label>
+                    <select id="sanitarios" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comunitario">¿Dispone de un sector de uso comunitario? *</label>
+                    <select id="comunitario" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="capacitacion">¿Los empleados son capacitados para evitar contaminación y daños durante la manipulación? *</label>
+                    <select id="capacitacion" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn-calcular" id="btnCalcular">Calcular</button>
+                    <button type="reset" class="btn-limpiar">Limpiar Formulario</button>
+                </div>
+            </form>
+
+            <div id="resultado" class="resultado">
+                <h2>Índice de Buenas Prácticas</h2>
+                <div class="porcentaje" id="porcentaje-valor">0%</div>
+                <div class="estado-mensaje" id="estado-mensaje"></div>
             </div>
-            
-            <div class="form-group">
-                <label for="oasis">Oasis *</label>
-                <select id="oasis" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="norte">Norte</option>
-                    <option value="valle">Valle de Uco</option>
-                    <option value="este">Este</option>
-                    <option value="sur">Sur</option>
-                </select>
-                <div class="error" id="error-oasis">Este campo es obligatorio</div>
-            </div>
-            -->
-            
-            <h3>Identificación de la propiedad</h3><br>
+        </div>
 
-            <div class="form-group">
-                <label for="croquis">¿Tiene un esquema detallado de la propiedad? *</label>
-                <select id="croquis" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-croquis">Este campo es obligatorio</div>
-            </div>
-            
-            <h3>Documentación obligatoria</h3><br>
-
-            <div class="form-group">
-                <label for="rotulacion">¿Usted rotula la mercadería, utiliza Documento de Tránsito Vegetal (DTVe) o Certificado de Ingreso de Uva (CIU)? *</label>
-                <select id="rotulacion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-rotulacion">Este campo es obligatorio</div>
-            </div>
-
-            <h3>Registros</h3><br>
-
-            <div class="form-group">
-                <label for="registro">¿Lleva registro de las labores (aplicaciones, riegos, etc.) en un cuaderno de campo? *</label>
-                <select id="registro" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-registro">Este campo es obligatorio</div>
-            </div>
-
-            <h3>Fitosanitarios</h3><br>
-
-            <div class="form-group">
-                <label for="productos">¿Utiliza únicamente aquellos productos registrados por SENASA, autorizados para el cultivo y siguiendo las indicaciones de los marbetes? *</label>
-                <select id="productos" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-productos">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="preparacion">El área de preparación de fitosanitarios: ¿está definida/delimitada? ¿Es de uso exclusivo para esta finalidad? No implica riesgo para la salud del operario y la contaminación del ambiente? *</label>
-                <select id="preparacion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-preparacion">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="medicion">¿Cuenta con elementos de medición adecuados, en buen estado, destinados solamente para la preparación de los productos? *</label>
-                <select id="medicion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-medicion">Este campo es obligatorio</div>
-            </div>
-            <div class="form-group">
-                <label for="proteccion">¿Cuenta con el equipo de protección personal para la preparación y aplicación de los productos? *</label>
-                <select id="proteccion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-proteccion">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="prohibicion">¿Respeta la prohibición de fumar, comer y beber durante la aplicación de fitosanitarios? *</label>
-                <select id="prohibicion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-prohibicion">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="lavado">¿El equipo se lava cuidadosamente después de cada aplicación, lejos de los cursos de agua o zonas que puedan contaminarse? *</label>
-                <select id="lavado" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-lavado">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="calibracion">¿Realiza mantenimientos que garantizan que los equipos de aplicación funcionan adecuadamente? ¿Se calibran al menos una vez al año? *</label>
-                <select id="calibracion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-calibracion">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="deposito">¿El depósito de agroquímicos es cerrado, tiene piso impermeable y los productos se encuentran separados del suelo? *</label>
-                <select id="deposito" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-deposito">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="envases">¿Realiza el triple lavado y la inutilización de los envases y los entrega para su disposición final? *</label>
-                <select id="envases" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-envases">Este campo es obligatorio</div>
-            </div>
-
-            <h3>Análisis de agua y suelo</h3><br>
-
-            <div class="form-group">
-                <label for="agua">¿Realiza análisis anuales de laboratorio del agua de riego que verifican su aptitud? *</label>
-                <select id="agua" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-agua">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="suelo">¿Realiza análisis de suelo anuales para calcular los requerimientos de fertilizantes? *</label>
-                <select id="suelo" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-suelo">Este campo es obligatorio</div>
-            </div>
-            
-
-            <div class="form-group">
-                <label for="agua2">¿Realiza anualmente análisis del agua de consumo que verifican su aptitud según el Código Alimentario Argentino? *</label>
-                <select id="agua2" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-agua2">Este campo es obligatorio</div>
-            </div>
-
-            <h3>Capacitación</h3><br>
-
-            <div class="form-group">
-                <label for="capacitacion">¿El personal está capacitado, especialmente en las técnicas de cosecha y prácticas de salud e higiene? *</label>
-                <select id="capacitacion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-capacitacion">Este campo es obligatorio</div>
-            </div>
-
-            <h3>Instalaciones</h3><br>
-
-            <div class="form-group">
-                <label for="sanitarios">¿Hay instalaciones sanitarias y equipamientos para lavado de manos, fijos o portátiles? *</label>
-                <select id="sanitarios" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-sanitarios">Este campo es obligatorio</div>
-            </div>
-
-            <h3>Manipulación de alimentos</h3><br>
-
-            <div class="form-group">
-                <label for="contaminacion">¿Toman todas las medidas necesarias a fin de prevenir cualquier tipo de contaminación física, química o biológica donde se encuentra el producto recolectado? *</label>
-                <select id="contaminacion" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-contaminacion">Este campo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="envases">¿Los envases utilizados en la cosecha están destinados exclusivamente para esta tarea y se mantienen limpios? *</label>
-                <select id="envases" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-envases">Este campo es obligatorio</div>
-            </div>
-
-            <h3>Animales</h3><br>
-
-            <div class="form-group">
-                <label for="animales">¿Respeta la prohibición de que ingresen animales domésticos y/o de granja al área de cultivo, zonas de manipulación y almacenamiento de producto? *</label>
-                <select id="animales" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-animales">Este campo es obligatorio</div>
-            </div>
-            
-            <h3>Asistencia técnica</h3><br>
-
-            <div class="form-group">
-                <label for="asistencia">¿La propiedad cuenta con la asistencia de un ingeniero agrónomo? *</label>
-                <select id="asistencia" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                </select>
-                <div class="error" id="error-asistencia">Este campo es obligatorio</div>
-            </div>
-            
-            <div class="button-group">
-                <button type="button" class="btn-calcular" onclick="calcular()">Calcular Resultado</button>
-                <button type="reset" class="btn-limpiar">Limpiar Formulario</button>
-            </div>
-        </form>
-        
-        <div id="resultado" class="resultado">
-            <h2>Índice de Buenas Prácticas</h2>
-            <div class="porcentaje" id="porcentaje-valor">0%</div>
-            <div class="estado-mensaje" id="estado-mensaje"></div>
-        </div><br>
-    
-       
+        <div class="grafico-container">
+            <div class="grafico-titulo">Análisis por Categorías</div>
+            <canvas id="radarChart"></canvas>
+        </div>
     </div>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        function calcular() {
-            const campos = ['propiedad', 'oasis', 'croquis', 'rotulacion', 'registro', 'productos', 'preparacion', 'medicion', 'proteccion', 'prohibicion', 'lavado', 'calibracion','deposito', 'envases', 'agua', 'suelo', 'agua2', 'capacitacion','contaminacion', 'envases', 'animales', 'asistencia'];
-            let validos = true;
+        const puntajes = {
+            RUT: 4,
+            rotulacion: 4,
+            croquis: 2,
+            registro: 5,
+            potable: 1,
+            riego: 4,
+            agua: 5,
+            suelo: 2.5,
+            suelo2: 2.5,
+            plan_fert: 4,
+            fert_inscr: 5,
+            enmienda: 1,
+            productos: 10,
+            preparacion: 7,
+            aplicacion: 8,
+            deposito: 10,
+            cuidados: 5.5,
+            animales: 2.5,
+            limpio: 5,
+            sanitarios: 5,
+            comunitario: 5,
+            capacitacion: 5
+        };
+        
+        const grupos = {
+            "Documentación": ["RUT", "rotulacion", "croquis"],
+            "Trazabilidad": ["registro"],
+            "Manejo del Agua": ["potable", "riego", "agua"],
+            "Manejo del Suelo": ["suelo", "suelo2"],
+            "Fertilizantes": ["plan_fert", "fert_inscr", "enmienda"],
+            "Fitosanitarios": ["productos", "preparacion", "aplicacion", "deposito"],
+            "Animales": ["cuidados", "animales"],
+            "Manipulación": ["limpio", "sanitarios", "comunitario", "capacitacion"]
+        };
+        
+        function calcularPorcentajeGrupo(ids) {
+            let puntosObtenidos = 0;
+            let puntosTotales = 0;
             
-            // Limpiar errores previos
-            campos.forEach(campo => {
-                const error = document.getElementById(`error-${campo}`);
-                if (error) error.classList.remove('mostrar');
-            });
-            
-            // Validar campos
-            campos.forEach(campo => {
-                const elemento = document.getElementById(campo);
-                if (!elemento.value) {
-                    validos = false;
-                    const error = document.getElementById(`error-${campo}`);
-                    if (error) error.classList.add('mostrar');
+            ids.forEach(id => {
+                const elemento = document.getElementById(id);
+                if (!elemento) return;
+                
+                const valor = elemento.value;
+                const peso = puntajes[id] || 0;
+                
+                // Solo contar si hay una respuesta seleccionada
+                if (valor === "si" || valor === "no") {
+                    puntosTotales += peso;
+                    if (valor === "si") {
+                        puntosObtenidos += peso;
+                    }
                 }
             });
             
-            if (!validos) {
-                return;
-            }
-            
-            // Contar respuestas Sí
-            const respuestasSi = ['croquis', 'rotulacion', 'registro', 'productos', 'preparacion', 'medicion', 'proteccion', 'prohibicion', 'lavado', 'calibracion','deposito', 'envases', 'agua', 'suelo', 'agua2', 'capacitacion','contaminacion', 'envases', 'animales', 'asistencia'].filter(campo => 
-                document.getElementById(campo).value === 'si'
-            ).length;
-            
-            // Total de preguntas con opción Sí/No
-            const totalPreguntas = 20;
-            
-            // Calcular porcentaje
-            const porcentaje = Math.round((respuestasSi / totalPreguntas) * 100);
-            
-            // Mostrar resultado
-            const resultadoDiv = document.getElementById('resultado');
-            const porcentajeValor = document.getElementById('porcentaje-valor');
-            
-            porcentajeValor.textContent = porcentaje + '%';
-            resultadoDiv.classList.remove('verde', 'amarillo', 'rojo');
-            
-            let estado = '';
-            if (porcentaje > 70) {
-                resultadoDiv.classList.add('verde');
-                estado = '✓ Excelente cumplimiento de buenas prácticas. Debería mejorar las áreas donde indicó que no. Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar';
-            } else if (porcentaje >= 40) {
-                resultadoDiv.classList.add('amarillo');
-                estado = '⚠ Cumplimiento moderado, hay aspectos a mejorar. Debería mejorar las áreas donde indicó que no. Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar';
-            } else {
-                resultadoDiv.classList.add('rojo');
-                estado = '✗ Bajo cumplimiento, requiere mejoras. Debería mejorar las áreas donde indicó que no. Por consultas o asesoramiento comunicarse a: direcciondeagricultura@mendoza.gov.ar';
-            }
-            
-            document.getElementById('estado-mensaje').textContent = estado;
-            resultadoDiv.classList.add('mostrar');
+            return puntosTotales === 0 ? 0 : Math.round((puntosObtenidos / puntosTotales) * 100);
         }
         
-        // Limpiar resultado al hacer reset
-        document.getElementById('formulario').addEventListener('reset', function() {
-            document.getElementById('resultado').classList.remove('mostrar');
-            document.querySelectorAll('.error').forEach(error => {
-                error.classList.remove('mostrar');
+        function calcularPorcentajeTotal() {
+            let puntosObtenidos = 0;
+            let puntosTotales = 0;
+            
+            Object.values(grupos).flat().forEach(id => {
+                const elemento = document.getElementById(id);
+                if (!elemento) return;
+                
+                const valor = elemento.value;
+                const peso = puntajes[id] || 0;
+                
+                // Solo contar si hay una respuesta seleccionada
+                if (valor === "si" || valor === "no") {
+                    puntosTotales += peso;
+                    if (valor === "si") {
+                        puntosObtenidos += peso;
+                    }
+                }
             });
+            
+            return puntosTotales === 0 ? 0 : Math.round((puntosObtenidos / puntosTotales) * 100);
+        }
+
+        function actualizarResultado() {
+            const porcentaje = calcularPorcentajeTotal();
+            
+            document.getElementById('porcentaje-valor').textContent = porcentaje + '%';
+            const estado = document.getElementById('estado-mensaje');
+            const resDiv = document.getElementById('resultado');
+            
+            resDiv.classList.remove('verde', 'amarillo', 'rojo');
+            resDiv.classList.add('mostrar');
+
+            if (porcentaje > 70) {
+                resDiv.classList.add('verde');
+                estado.textContent = 'Excelente cumplimiento de buenas prácticas.';
+            } else if (porcentaje >= 40) {
+                resDiv.classList.add('amarillo');
+                estado.textContent = 'Cumplimiento moderado. Hay aspectos a mejorar.';
+            } else {
+                resDiv.classList.add('rojo');
+                estado.textContent = 'Bajo cumplimiento. Se requiere mejorar urgentemente.';
+            }
+            
+            actualizarGrafico();
+        }
+
+        let radarChart = null;
+
+        function actualizarGrafico() {
+            const labels = Object.keys(grupos);
+            const datos = labels.map(nombre => calcularPorcentajeGrupo(grupos[nombre]));
+
+            if (radarChart) {
+                radarChart.data.datasets[0].data = datos;
+                radarChart.update();
+                return;
+            }
+
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Cumplimiento (%)',
+                        data: datos,
+                        fill: true,
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(102, 126, 234, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('btnCalcular').addEventListener('click', actualizarResultado);
+        
+        document.querySelector('.btn-limpiar').addEventListener('click', function() {
+            document.getElementById('resultado').classList.remove('mostrar');
+            if (radarChart) {
+                radarChart.data.datasets[0].data = [0, 0, 0, 0, 0, 0, 0, 0];
+                radarChart.update();
+            }
         });
     </script>
-    
 </body>
 </html>
